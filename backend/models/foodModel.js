@@ -5,17 +5,28 @@ const Schema=mongoose.Schema;
 const foodSchema=new Schema({
    name:{
     type:String,
-    required:true
+    required:true,
    },
-   desciption:{
+   description:{
     type:String,
-    required:true
+    required:true,
    },
    price:{
     type:Number,
-    required:true
+    required:true,
+   },
+   image:{
+      type:String,
+      required:true,
+   },
+   category:{
+      type:String,
+      required:true,
    }
 })
 
-module.exports=foodSchema;
+
+const foodModel=mongoose.models.food ||  mongoose.model("food",foodSchema);
+
+module.exports=foodModel;
 
