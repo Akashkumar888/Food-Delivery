@@ -18,7 +18,7 @@ const placeOrder=async(req,res)=>{
       address:req.body.address,
     })
     await newOrder.save();
-    await userModel.findByIdAndUpdate(req.body.userId,{cartData:{}});// {} means clear all data
+    await userModel.findByIdAndUpdate(req.userId,{cartData:{}});// {} means clear all data
     const line_items = req.body.items.map((item) => {
        return {
         price_data: {
@@ -60,12 +60,57 @@ const placeOrder=async(req,res)=>{
 }
 
 const verifyOrder=async(req,res)=>{
+  const {orderId,success}=req.body;
   try {
-    
+    if(success=='true'){
+      await orderModel.findByIdAndUpdate(orderId,{payment:true});
+      res.json({success:true,message:"Paid"});
+    }   
+    else{
+      await orderModel.findByIdAndDelete(orderId);
+      res.json({success:false,message:"Not paid"});
+    }
   } catch (error) {
-    
+    console.log(error);
+    res.json({success:false,message:"Payment failed"});
   }
 }
 
-module.exports={placeOrder,verifyOrder};
+const userOrders=async(req,res)=>{
+  try {
+    const orders=await orderModel.find({userId:req.userId});
+    // const orders=await orderModel.find();
+    res.json({success:true,data:orders});
 
+  } catch (error) {
+    console.log(error);
+    res.json({success:false,message:"Error"});
+  }
+}
+
+// listing order of admin panel
+
+const listOfOrders=async(req,res)=>{
+
+ try {
+  const orders=await orderModel.find();
+    res.json({success:true,data:orders});
+ } 
+ catch (error) {
+    console.log(error);
+    res.json({success:false,message:"Error"});
+ }
+}
+
+// api for updating order status
+const updateStatus=async(req,res)=>{
+  try {
+    await orderModel.findByIdAndUpdate(req.body.orderId,{status:req.body.status});
+    res.json({success:true,message:"Status Updated."});
+  } catch (error) {
+    console.log("Error");
+    res.json({success:true,message:"Error"});
+  }
+}
+
+module.exports={placeOrder,verifyOrder,userOrders,listOfOrders,updateStatus};
