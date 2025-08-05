@@ -5,7 +5,12 @@ const cors=require('cors');
 const path = require('path');
 const connectDB=require('./config/db');
 const foodRouter = require('./routes/foodRoute');
+const userRouter=require('./routes/userRoute');
+const cartRouter=require('./routes/cartRoutes');
+const orderRouter=require('./routes/orderRoute');
+
 const PORT=process.env.PORT || 4000;
+
 
 
 // middleware
@@ -15,8 +20,12 @@ app.use(express.urlencoded({extended:true}));
 app.use(express.static(path.join(__dirname,"public")));
 connectDB();
 
+
 // api endpoint
 app.use("/api/food",foodRouter);
+app.use("/api/user",userRouter);
+app.use("/api/cart",cartRouter);
+app.use("/api/order",orderRouter);
 app.use("/images",express.static("uploads"));
 
 
