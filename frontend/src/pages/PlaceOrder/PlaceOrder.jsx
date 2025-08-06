@@ -6,6 +6,7 @@ import axios from 'axios';
 import {useNavigate} from 'react-router-dom';
 
 const PlaceOrder = () => {
+
   const {getTotalCartAmount,token,food_list,cartItems,url}=useContext(StoreContext);
   
   const navigate=useNavigate();
@@ -72,6 +73,7 @@ const PlaceOrder = () => {
 
   
   return (
+
     <form className='place-order' onSubmit={onSubmitHandler} >
       <div className="place-order-left">
         <p className='title'>Delivery Information</p>
@@ -114,6 +116,7 @@ const PlaceOrder = () => {
       </div>
     </form>
   )
+  
 }
 
 export default PlaceOrder
