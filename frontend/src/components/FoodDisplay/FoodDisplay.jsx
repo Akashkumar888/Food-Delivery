@@ -14,10 +14,6 @@ const FoodDisplay = ({ category }) => {
         item.category.toLowerCase() === category.toLowerCase()
       );
 
-  // Debug logs to help when admin adds new food item
-  console.log("Category:", category);
-  console.log("Food List:", food_list);
-  console.log("Filtered Food:", filteredFood);
 
   return (
     <div className='food_display' id='food_display'>

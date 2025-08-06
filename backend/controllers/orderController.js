@@ -26,7 +26,7 @@ const placeOrder=async(req,res)=>{
           product_data: {
             name: item.name,
           },
-          unit_amount: item.price * 100 * 80, // Usually only *100 is enough; *80 might be a mistake
+          unit_amount: item.price * 100 *80, // Usually only *100 is enough; *80 might be a mistake
         },
         quantity: item.quantity,
       };
@@ -39,7 +39,7 @@ const placeOrder=async(req,res)=>{
         product_data:{
           name: "Delivery Charges",
         },
-        unit_amount: 2*100*80
+        unit_amount: 2*100 *80
       },
       quantity:1,
     })
