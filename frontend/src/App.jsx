@@ -11,6 +11,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from 'react-toastify';
 import Verify from './pages/Verify/Verify'
 import MyOrder from './pages/MyOrder/MyOrder'
+import LoginSuccess from "./components/LoginSuccess/LoginSuccess";
 
 
 function App() {
@@ -29,6 +30,7 @@ function App() {
          <Route path='/order' element={<PlaceOrder/>}/>
          <Route path='/verify' element={<Verify/>}/>
          <Route path='/myorders' element={<MyOrder/>}/>
+         <Route path="/login-success" element={<LoginSuccess />} />
         </Routes>
       </div>
         <Footer/>

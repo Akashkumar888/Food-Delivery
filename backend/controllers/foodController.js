@@ -1,76 +1,57 @@
+const foodModel = require('../models/foodModel');
+const imagekit = require('../utils/imagekit');
 
-const foodModel=require('../models/foodModel');
-const fs=require('fs');
-
-const addFood=async(req,res)=>{
-  
+const addFood = async (req, res) => {
   if (!req.file) {
     return res.status(400).json({ success: false, message: "Image file is missing." });
   }
-  let image_filename=req.file?.filename;
 
-  const food=new foodModel({
-    name:req.body.name,
-    description:req.body.description,
-    price:req.body.price,
-    category:req.body.category,
-    image:image_filename,
-  }) 
-  try{
-    await food.save();
-    res.json({
-      success:true,
-      message:"Food Added"
-    })
-  }
-  catch(error){
-  console.log(error);
-  res.json({success:false,message:error.message});
-  }
-}
+  try {
+    const uploadedImage = await imagekit.upload({
+      file: req.file.buffer,
+      fileName: `${Date.now()}_${req.file.originalname}`,
+    });
 
-const listFood=async(req,res)=>{
-  try{
-  const foods=await foodModel.find({});
-  res.status(200).json({
-    success:true,
-    data:foods,
-  })
-  }
-  catch(error){
-  console.log(error);
-  res.status(400).json({
-    success:false,
-    message:error.message,
-  })
-  }
-}
-
-const removeFood=async(req,res)=>{
-  try{
-    const food=await foodModel.findById(req.body.id);
-
-    // Safe to access food.image now
-    fs.unlink(`uploads/${food.image}`, (err) => {
-      if (err) console.error("File delete error:", err);
+    const food = new foodModel({
+      name: req.body.name,
+      description: req.body.description,
+      price: req.body.price,
+      category: req.body.category,
+      image: uploadedImage.url,
     });
     
+
+
+    await food.save();
+    // console.log("✅ Food saved:", food);
+
+    res.json({
+      success: true,
+      message: "Food Added",
+      data: food,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
+
+const listFood = async (req, res) => {
+  try {
+    const foods = await foodModel.find({});
+    res.status(200).json({ success: true, data: foods });
+  } catch (error) {
+    res.status(400).json({ success: false, message: error.message });
+  }
+};
+
+const removeFood = async (req, res) => {
+  try {
     await foodModel.findByIdAndDelete(req.body.id);
-    res.status(200).json({
-      success:true,
-      message:"Food removed",
-    })
+    res.status(200).json({ success: true, message: "Food removed" });
+  } catch (error) {
+    res.status(400).json({ success: false, message: error.message });
   }
-  catch(error){
-    console.log(error);
-    res.status(400).json({
-      success:false,
-      message:error.message,
-    })
-  }
-}
+};
 
-
-
-
-module.exports={addFood,listFood,removeFood};
+module.exports = { addFood, listFood, removeFood };

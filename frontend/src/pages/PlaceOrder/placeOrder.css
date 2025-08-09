@@ -41,3 +41,10 @@
   margin-top: 30px;
 }
 
+.place-order .cart-total .or {
+  padding-left: 95px;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  color: rebeccapurple;
+}

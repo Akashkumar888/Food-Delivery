@@ -1,42 +1,56 @@
 require('dotenv').config();
-const express=require('express');
-const app=express();
-const cors=require('cors');
+const express = require('express');
+const cors = require('cors');
+const session = require('express-session');
 const path = require('path');
-const connectDB=require('./config/db');
+const passport = require('./config/passport');
+const connectDB = require('./config/db');
+
 const foodRouter = require('./routes/foodRoute');
-const userRouter=require('./routes/userRoute');
-const cartRouter=require('./routes/cartRoutes');
-const orderRouter=require('./routes/orderRoute');
+const userRouter = require('./routes/userRoute');
+const cartRouter = require('./routes/cartRoutes');
+const orderRouter = require('./routes/orderRoute');
+const authRouter = require('./routes/authRoute');
 
-const PORT=process.env.PORT || 4000;
+const app = express();
+const PORT = process.env.PORT || 3000;
 
-
-
-// middleware
-app.use(express.json());
-app.use(cors());
-app.use(express.urlencoded({extended:true}));
-app.use(express.static(path.join(__dirname,"public")));
+// Connect to DB
 connectDB();
 
+// Middleware
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(cors());
+app.use(express.static(path.join(__dirname, 'public')));
 
-// api endpoint
-app.use("/api/food",foodRouter);
-app.use("/api/user",userRouter);
-app.use("/api/cart",cartRouter);
-app.use("/api/order",orderRouter);
-app.use("/images",express.static("uploads"));
+// Sessions
+app.use(
+  session({
+    secret: process.env.EXPRESS_SECRET,
+    resave: false,
+    saveUninitialized: false,
+  })
+);
 
+// Passport
+app.use(passport.initialize());
+app.use(passport.session());
 
-app.get("/",(req,res)=>{
-  res.send("Hii");
-})
+// Routes
+app.use('/api/auth', authRouter);
+app.use('/api/food', foodRouter);
+app.use('/api/user', userRouter);
+app.use('/api/cart', cartRouter);
+app.use('/api/order', orderRouter);
+app.use('/images', express.static('uploads'));
 
+// Test Route
+app.get('/', (req, res) => {
+  res.send('Server is running');
+});
 
-app.listen(PORT,()=>{
-  console.log(`Server is running on PORT http://localhost:${PORT}`);
-})
-
-
+app.listen(PORT, () => {
+  console.log(`✅ Server running at http://localhost:${PORT}`);
+});
 

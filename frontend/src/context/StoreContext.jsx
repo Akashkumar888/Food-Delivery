@@ -7,10 +7,15 @@ export const StoreContext=createContext(null)
 
 const StoreContextProvider=(props)=>{
   
-  const url="http://localhost:4000"
+  const url="http://localhost:3000"
   const [token,setToken]=useState("");
   const [cartItems,setCartItems]=useState({});
   const [food_list,setFoodList]=useState([]);
+  
+  // 🔹 Promo code states
+  const [promoCode, setPromoCode] = useState("");
+  const [discount, setDiscount] = useState(0);
+  const [discountApplied, setDiscountApplied] = useState(false);
 
   const addToCart = async (itemId) => {
     try {
@@ -128,6 +133,22 @@ useEffect(() => {
     }
   }
 
+  // 🔹 Apply promo code
+  const applyPromoCode = (code) => {
+    const formattedCode = code.toUpperCase();
+    if (/^[A-Z0-9]{6}$/.test(formattedCode)) {
+      if (!discountApplied) {
+        setPromoCode(formattedCode);
+        setDiscount(20); // ₹20 discount
+        setDiscountApplied(true);
+        return { success: true, message: "Promo applied! ₹20 discount given." };
+      } else {
+        return { success: false, message: "Promo already applied." };
+      }
+    } else {
+      return { success: false, message: "Invalid promo code. Must be 6 letters/numbers." };
+    }
+  };
 
   const contextValue={
   food_list,
@@ -139,6 +160,10 @@ useEffect(() => {
   url,
   token,
   setToken,
+  promoCode,
+  discount,
+  discountApplied,
+  applyPromoCode,
   }
 
   return (

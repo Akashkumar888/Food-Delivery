@@ -45,12 +45,13 @@ const List = ({url}) => {
          <b>Action</b>
         </div>
         {list.map((item,index)=>{
+          console.log("Image URL:", item.image);
           return (
             <div key={index} className='list-table-format'>
-            <img src={`${url}/images/`+item.image} alt="" />
+            <img src={item.image} alt={item.name} />
             <p>{item.name}</p>
             <p>{item.category}</p>
-            <p>${item.price}</p>
+            <p>Rs.{item.price}</p>
             <p className='cursor' onClick={()=>removeFood(item._id)}>x</p>
 
             </div>

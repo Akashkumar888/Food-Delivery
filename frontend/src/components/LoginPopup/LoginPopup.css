@@ -74,3 +74,20 @@
   cursor: pointer;
 }
 
+.google-login-button {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.google-login-button img{
+  width: 18px;
+  height: 18px;
+}
+
+.google-login-button .google-btn{
+  font-weight: 500;
+  font-size: 18px;
+}
+

@@ -1,17 +1,29 @@
+const express = require('express');
+const orderRouter = express.Router();
 
-const express=require('express');
-const orderRouter=express.Router();
+const {
+  placeOrder,
+  verifyOrder,
+  userOrders,
+  listOfOrders,
+  updateStatus,
+  placeOrderCOD
+} = require('../controllers/orderController');
 
-const {placeOrder,verifyOrder,userOrders,listOfOrders,updateStatus}=require('../controllers/orderController');
-const authMiddleware=require('../middleware/auth');
-const adminMiddleware = require("../middleware/adminMiddleware");
+const authMiddleware = require('../middleware/auth');
+const adminMiddleware = require('../middleware/adminMiddleware');
 
-
-orderRouter.post('/place',authMiddleware, placeOrder);
+// Authenticated user routes
+orderRouter.post('/place', authMiddleware, placeOrder);
 orderRouter.post('/verify', verifyOrder);
-orderRouter.post('/userorders',authMiddleware, userOrders);
-orderRouter.get('/list',listOfOrders);
+orderRouter.post('/userorders', authMiddleware, userOrders);
+
+// Admin routes
+orderRouter.get('/list',  listOfOrders);
 orderRouter.post('/status', updateStatus);
 
-module.exports=orderRouter;
+
+orderRouter.post('/place-cod', authMiddleware, placeOrderCOD); // <-- new COD route
+
+module.exports = orderRouter;
 

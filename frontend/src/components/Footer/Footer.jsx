@@ -14,9 +14,15 @@ const Footer = () => {
         we've got you covered — because good food brings people together.
         </p>
         <div className="footer-social-icons">
-          <img src={assets.facebook_icon} alt="" />
-          <img src={assets.twitter_icon} alt="" />
-          <img src={assets.linkedin_icon} alt="" />
+          <a href="https://facebook.com/yourpage" target="_blank" rel="noopener noreferrer">
+              <img src={assets.facebook_icon} alt="Facebook" />
+            </a>
+            <a href="https://twitter.com/yourhandle" target="_blank" rel="noopener noreferrer">
+              <img src={assets.twitter_icon} alt="Twitter" />
+            </a>
+            <a href="https://linkedin.com/in/yourprofile" target="_blank" rel="noopener noreferrer">
+              <img src={assets.linkedin_icon} alt="LinkedIn" />
+            </a>
         </div>
         </div>
         <div className="footer-content-center">
@@ -32,8 +38,12 @@ const Footer = () => {
         <div className="footer-content-right">
           <h2>GET IN TOUCH</h2>
           <ul>
-            <li>+1-212-456-7890</li>
-            <li>contact@tomato.com</li>
+            <li>
+              <a href="tel:+12124567890">+1-212-456-7890</a>
+            </li>
+            <li>
+              <a href="mailto:contact@tomato.com">contact@tomato.com</a>
+            </li>
           </ul>
         </div>
       </div>
