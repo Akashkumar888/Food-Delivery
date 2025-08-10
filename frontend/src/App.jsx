@@ -34,8 +34,11 @@ function App() {
         </Routes>
       </div>
         <Footer/>
+        {/* 👇 Must be rendered to see toast messages */}
+      <ToastContainer position="top-center" autoClose={3000} />
     </>
   )
 }
 
 export default App
+

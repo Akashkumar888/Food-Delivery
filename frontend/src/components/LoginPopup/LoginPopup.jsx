@@ -31,10 +31,17 @@ const LoginPopup = ({ setShowLogin }) => {
         localStorage.setItem('token', response.data.token);
         setShowLogin(false);
       } else {
-        toast.error(response.data.message);
+        toast.error(response.data.message || "Something went wrong");
+        
       }
-    } catch (err) {
-      toast.error("Something went wrong");
+    } 
+    catch (err) {
+      if (err.response && err.response.data && err.response.data.message) {
+      toast.error(err.response.data.message);
+    } 
+    else {
+      toast.error("Server error, please try again later.");
+    }
     }
   };
 
@@ -98,7 +105,7 @@ const LoginPopup = ({ setShowLogin }) => {
             required
           />
         </div>
-
+        
         <button type="submit">
           {currState === "Sign Up" ? "Create account" : "Login"}
         </button>
