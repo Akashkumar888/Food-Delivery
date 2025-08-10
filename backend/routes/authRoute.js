@@ -3,7 +3,7 @@ const passport = require('passport');
 const jwt = require('jsonwebtoken');
 
 const router = express.Router();
-
+const CLIENT_URL="http://localhost:5173";
 // Step 1: Redirect to Google
 router.get('/google',
   passport.authenticate('google', { scope: ['profile', 'email'] })
@@ -21,7 +21,7 @@ router.get('/google/callback',
     );
 
     // Redirect to frontend with token
-    res.redirect(`${process.env.CLIENT_URL}/login-success?token=${token}`);
+    res.redirect(`${CLIENT_URL}/login-success?token=${token}`);
   }
 );
 
