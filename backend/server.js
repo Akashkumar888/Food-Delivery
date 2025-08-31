@@ -18,6 +18,12 @@ const PORT = process.env.PORT || 3000;
 // Connect to DB
 connectDB();
 
+app.use(cors({
+  origin: process.env.CLIENT_URL,
+  credentials: true
+}));
+
+
 // Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -30,6 +36,10 @@ app.use(
     secret: process.env.EXPRESS_SECRET,
     resave: false,
     saveUninitialized: false,
+    cookie: {
+    secure: true, // true if using https
+    sameSite: 'none'
+  }
   })
 );
 
