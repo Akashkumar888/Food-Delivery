@@ -44,6 +44,27 @@ const placeOrder = async (req, res) => {
   }
 };
 
+
+const createOrder=async(req,res)=>{
+  const { amount } = req.body;
+
+  try {
+    const options = {
+      amount: amount * 100, // Convert to paise
+      currency: "INR",
+      receipt: `receipt_${Date.now()}`
+    };
+
+    const order = await razorpay.orders.create(options);
+    res.json(order);
+  } catch (err) {
+    console.error("Razorpay Create Order Error:", err);
+    res.status(500).json({ message: "Error creating Razorpay order" });
+  }
+}
+
+
+
 // Verify Razorpay Signature
 const verifyOrder = async (req, res) => {
   const {
@@ -112,6 +133,11 @@ const updateStatus = async (req, res) => {
 const placeOrderCOD = async (req, res) => {
   try {
     const { items, amount, address } = req.body;
+    
+    if (!items || !amount || !address) {
+   return res.status(400).json({ success: false, message: "Missing fields" });
+   }
+
 
     const newOrder = new orderModel({
       userId: req.userId,
@@ -142,6 +168,7 @@ const placeOrderCOD = async (req, res) => {
 
 module.exports = {
   placeOrder,
+  createOrder,
   verifyOrder,
   userOrders,
   listOfOrders,
