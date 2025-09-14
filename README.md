@@ -1,24 +1,31 @@
-# Food Delivery Application
+# Food Delivery Platform
 
-A full-stack food delivery platform with separate admin and user frontends, and a Node.js backend. Features include user authentication, food item management, cart, order placement, and payment integration.
+A full-stack food delivery application with user and admin interfaces, built using React (Vite) for the frontend and admin dashboard, and Node.js/Express with MongoDB for the backend.
 
 ---
 
 ## Table of Contents
 
-- [Project Structure](#project-structure)
+- [Project Overview](#project-overview)
+- [Folder Structure](#folder-structure)
 - [Tech Stack](#tech-stack)
 - [Setup Instructions](#setup-instructions)
 - [Environment Variables](#environment-variables)
 - [Scripts](#scripts)
-- [Folder Details](#folder-details)
+- [Features](#features)
 - [API Endpoints](#api-endpoints)
 - [Contributing](#contributing)
 - [License](#license)
 
 ---
 
-## Project Structure
+## Project Overview
+
+This platform allows users to browse food items, add them to cart, place orders, and make payments. Admins can manage food items and view orders. The backend handles authentication, data storage, and payment integration.
+
+---
+
+## Folder Structure
 
 ```
 Food-delivery/
@@ -32,12 +39,11 @@ Food-delivery/
 
 ## Tech Stack
 
-- **Frontend:** React, Vite, CSS
+- **Frontend & Admin:** React, Vite, CSS
 - **Backend:** Node.js, Express.js, MongoDB
 - **Authentication:** Passport.js, JWT
 - **Payments:** Razorpay
 - **File Uploads:** Multer, ImageKit
-- **Linting:** ESLint
 
 ---
 
@@ -76,7 +82,7 @@ npm install
 ### 3. Configure Environment Variables
 
 - Copy `.env.example` to `.env` in each folder (if available).
-- Set up MongoDB URI, JWT secrets, Razorpay keys, etc.
+- Fill in MongoDB URI, JWT secrets, Razorpay keys, etc.
 
 ### 4. Run the Applications
 
@@ -129,31 +135,29 @@ IMAGEKIT_URL_ENDPOINT=your_imagekit_url
 
 ---
 
-## Folder Details
+## Features
 
-### `/backend`
+### User Frontend
 
-- `server.js` - Entry point for Express server.
-- `config/` - DB, passport, Razorpay, etc. configs.
-- `controllers/` - Route logic for auth, food, cart, orders, users.
-- `middleware/` - Auth and admin checks.
-- `models/` - Mongoose schemas.
-- `routes/` - Express routers for all endpoints.
-- `uploads/` - Uploaded images.
-- `utils/` - Multer and ImageKit helpers.
+- Browse food items by category
+- Add/remove items to cart
+- Place orders and track order status
+- User authentication (login/register)
+- Payment integration (Razorpay)
 
-### `/frontend`
+### Admin Dashboard
 
-- `src/` - React app for users.
-- `components/` - UI components (Navbar, FoodItem, etc.).
-- `pages/` - Main pages (Home, Cart, Orders, etc.).
-- `context/` - Global state management.
+- Add, edit, delete food items
+- View all orders
+- Manage food inventory
 
-### `/admin`
+### Backend
 
-- `src/` - React app for admins.
-- `components/` - Navbar, Sidebar, etc.
-- `pages/` - Add, List, Orders management.
+- RESTful API for all operations
+- JWT-based authentication
+- File uploads for food images
+- Payment order creation (Razorpay)
+- MongoDB data storage
 
 ---
 
