@@ -1,36 +1,15 @@
 const express = require('express');
-const passport = require('passport');
-const jwt = require('jsonwebtoken');
+const { googleAuth, googleCallback, logoutUser } = require('../controllers/authController');
 
 const router = express.Router();
 
-// Step 1: Redirect to Google
-router.get('/google',
-  passport.authenticate('google', { scope: ['profile', 'email'] })
-);
+// Google login
+router.get('/google', googleAuth);
 
-// Step 2: Google callback
-router.get('/google/callback',
-  passport.authenticate('google', { failureRedirect: '/' }),
-  (req, res) => {
-    // Generate JWT for your frontend
-    const token = jwt.sign(
-      { id: req.user._id, email: req.user.email },
-      process.env.JWT_SECRET,
-      { expiresIn: '7d' }
-    );
-
-    // Redirect to frontend with token
-    res.redirect(`${process.env.CLIENT_URL}/login-success?token=${token}`);
-  }
-);
+// Google callback
+router.get('/google/callback', googleCallback);
 
 // Logout
-router.post('/logout', (req, res, next) => {
-  req.logOut(err => {
-    if (err) return next(err);
-    res.redirect('/');
-  });
-});
+router.post('/logout', logoutUser);
 
 module.exports = router;
